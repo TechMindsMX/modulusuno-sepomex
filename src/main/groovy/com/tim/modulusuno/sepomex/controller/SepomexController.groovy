@@ -4,15 +4,19 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.beans.factory.annotation.Autowired
 
 @RestController
 @RequestMapping("/sepomex")
 class SepomexController {
 
+  @Autowired
+  SepomexRepository repository
+
   @RequestMapping(value="/show", method=RequestMethod.GET)
   String show(@RequestParam("id") Integer id) {
 
-    def sepomexes = Sepomex.findAllByDCodigo(id)
+    def sepomexes = repository.findAllByDCodigo(id)
 
     def jsonData = [
       id:sepomexes[0]?.id,

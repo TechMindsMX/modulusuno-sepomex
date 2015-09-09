@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.ResponseBody
 import com.tim.modulusuno.sepomex.domain.SepomexRepository
 import com.tim.modulusuno.sepomex.domain.Sepomex
 
@@ -16,12 +17,10 @@ class SepomexController {
   SepomexRepository repository
 
   @RequestMapping(value="/show", method=RequestMethod.GET)
+  @ResponseBody
   String show(@RequestParam("cp") String cp) {
 
     List<Sepomex> sepomexes = repository.findAllByDCodigo(cp)
-    sepomexes.each {
-      println it
-    }
 
     def jsonData = [
       id:sepomexes[0]?.id,

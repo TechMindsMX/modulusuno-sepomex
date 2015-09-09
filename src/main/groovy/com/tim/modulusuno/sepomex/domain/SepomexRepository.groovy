@@ -1,7 +1,7 @@
-package com.team.one.domain
+package com.tim.modulusuno.sepomex.domain
 
 import org.springframework.data.repository.PagingAndSortingRepository
 
-interface UserRepository extends PagingAndSortingRepository<Sepomex,Integer> {
-  def findById(Integer id)
+interface SepomexRepository extends PagingAndSortingRepository<Sepomex,String> {
+  List<Sepomex> findAllByDCodigo(String cp)
 }

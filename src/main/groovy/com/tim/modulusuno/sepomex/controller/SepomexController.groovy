@@ -18,7 +18,7 @@ class SepomexController {
 
   @RequestMapping(value="/show", method=RequestMethod.GET)
   @ResponseBody
-  String show(@RequestParam("cp") String cp) {
+  def show(@RequestParam("cp") String cp) {
 
     List<Sepomex> sepomexes = repository.findAllByDCodigo(cp)
 

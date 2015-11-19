@@ -11,10 +11,10 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
 
-jar {
+war {
     baseName = 'sepomex'
     version = '0.0.1-SNAPSHOT'
 }

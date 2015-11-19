@@ -1,9 +1,10 @@
 package com.tim.modulusuno.sepomex.controller
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET
+
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.ResponseBody
 import com.tim.modulusuno.sepomex.domain.SepomexRepository
@@ -16,9 +17,9 @@ class SepomexController {
   @Autowired
   SepomexRepository repository
 
-  @RequestMapping(value="/show", method=RequestMethod.GET)
+  @RequestMapping(method=GET, value="/{cp}")
   @ResponseBody
-  def show(@RequestParam("cp") String cp) {
+  def show(@PathVariable String cp) {
 
     List<Sepomex> sepomexes = repository.findAllByDCodigo(cp)
 

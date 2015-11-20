@@ -1,6 +1,7 @@
 package com.tim.modulusuno.sepomex.controller
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET
+import javax.servlet.http.HttpServletResponse
 
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +20,8 @@ class SepomexController {
 
   @RequestMapping(method=GET, value="/{cp}")
   @ResponseBody
-  def show(@PathVariable String cp) {
+  def show(@PathVariable String cp, HttpServletResponse response) {
+    response.addHeader("Access-Control-Allow-Origin", "*");
 
     List<Sepomex> sepomexes = repository.findAllByDCodigo(cp)
 

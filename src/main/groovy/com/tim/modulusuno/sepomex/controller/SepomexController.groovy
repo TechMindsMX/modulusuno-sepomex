@@ -41,6 +41,7 @@ class SepomexController {
       idAsentaCpcnos:sepomexes[0]?.idAsentaCpcnos,
       dZona:sepomexes[0]?.dZona,
       cCveCiudad:sepomexes[0]?.cCveCiudad,
+      country:'México',
       dAsenta: sepomexes*.dAsenta
     ]
 

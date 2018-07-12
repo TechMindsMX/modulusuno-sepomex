@@ -12,6 +12,11 @@ pipeline {
   stages {
 
     stage('Build App') {
+      when {
+        expression {
+          env.BRANCH_NAME in ["master","stage","production"]
+        }
+      }
       steps{
         echo 'Building app'
         sh 'gradle clean build -x test'
@@ -19,15 +24,24 @@ pipeline {
     }
 
     stage('Download Config'){
+      when {
+        expression {
+          env.BRANCH_NAME in ["master","stage","production"]
+        }
+      }
       steps{
         dir("configFiles"){
-          //sh "git clone -b ${env.BRANCH_NAME} --single-branch git@bitbucket.org:techmindsmx/sepomex.git ."
-          sh "git clone -b master --single-branch git@bitbucket.org:techmindsmx/sepomex.git ."
+          sh "git clone -b ${env.BRANCH_NAME} --single-branch git@bitbucket.org:techmindsmx/sepomex.git ."
         }
       }
     }
 
     stage('Preparing build Image Docker'){
+      when {
+        expression {
+          env.BRANCH_NAME in ["master","stage","production"]
+        }
+      }
       steps{
         sh 'cp configFiles/application-PRODUCTION.yml .'
         dir("folderDocker"){
@@ -40,6 +54,11 @@ pipeline {
     }
 
     stage('Build image docker') {
+      when {
+        expression {
+          env.BRANCH_NAME in ["master","stage","production"]
+        }
+      }
       steps{
         script {
           docker.withTool('Docker') {
@@ -51,7 +70,6 @@ pipeline {
         }
       }
     }
-    /*
 
     stage('Deploy Kube') {
       when {
@@ -63,9 +81,9 @@ pipeline {
         ENVIRONMENT = "${env.BRANCH_NAME == 'master' ? 'development' : env.BRANCH_NAME}"
       }
       steps{
-        sh "ssh ec2-user@34.200.152.121 sh /home/ec2-user/deployApp.sh ${env.VERSION} ${env.ENVIRONMENT}"
+        sh "ssh ec2-user@34.200.152.121 sh /home/ec2-user/deployApp.sh ${env.VERSION} ${env.ENVIRONMENT} sepomex"
       }
-    }*/
+    }
 
   }
 

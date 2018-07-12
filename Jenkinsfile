@@ -28,7 +28,6 @@ pipeline {
     }
 
     stage('Preparing build Image Docker'){
-      }
       steps{
         sh 'cp configFiles/application-PRODUCTION.yml .'
         dir("folderDocker"){

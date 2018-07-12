@@ -34,28 +34,24 @@ pipeline {
           sh "git clone git@github.com:makingdevs/Tomcat-Docker.git ."
         }
         sh 'mv folderDocker/* .'
-        sh 'ls .'
-        //sh 'mv build/libs/app.jar .'
+        sh 'mv build/libs/sepomex-0.0.1-SNAPSHOT.war .'
+        sh 'mv sepomex-0.0.1-SNAPSHOT.war ROOT.war'
       }
     }
 
-    /*stage('Build image docker') {
-      when {
-        expression {
-          env.BRANCH_NAME in ["master","stage","production"]
-        }
-      }
+    stage('Build image docker') {
       steps{
         script {
           docker.withTool('Docker') {
-            docker.withRegistry('https://752822034914.dkr.ecr.us-east-1.amazonaws.com/emailer', 'ecr:us-east-1:techminds-aws') {
-              def customImage = docker.build("emailer:${env.VERSION}", '--build-arg URL_WAR=app.jar --build-arg FILE_NAME_CONFIGURATION=conf.json --build-arg PATH_NAME_CONFIGURATION=/root/emailer/ .')
+            docker.withRegistry('https://752822034914.dkr.ecr.us-east-1.amazonaws.com/sepomex', 'ecr:us-east-1:techminds-aws') {
+              def customImage = docker.build("sepomex:${env.VERSION}", '--build-arg URL_WAR=ROOT.war --build-arg FILE_NAME_CONFIGURATION=application-PRODUCTION.yml --build-arg PATH_NAME_CONFIGURATION=/root/.sepomex/ .')
               customImage.push()
             }
           }
         }
       }
     }
+    /*
 
     stage('Deploy Kube') {
       when {

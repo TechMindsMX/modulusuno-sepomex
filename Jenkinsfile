@@ -71,17 +71,36 @@ pipeline {
       }
     }
 
-    stage('Deploy Kube') {
+    stage('Deploy Docker Machine development') {
       when {
         expression {
-          env.BRANCH_NAME in ["master","stage","production"]
+          env.BRANCH_NAME == "master"
         }
       }
-      environment {
-        ENVIRONMENT = "${env.BRANCH_NAME == 'master' ? 'development' : env.BRANCH_NAME}"
+      steps{
+        sh "ssh ec2-user@34.206.149.172 sh /home/ec2-user/deployApps.sh ${env.VERSION} development sepomex 8084 8080"
+      }
+    }
+
+    stage('Deploy Docker Machine stage') {
+      when {
+        expression {
+          env.BRANCH_NAME == "stage"
+        }
       }
       steps{
-        sh "ssh ec2-user@34.200.152.121 sh /home/ec2-user/deployApp.sh ${env.VERSION} ${env.ENVIRONMENT} sepomex"
+        sh "ssh ec2-user@34.206.149.172 sh /home/ec2-user/deployApps.sh ${env.VERSION} stage sepomex 8085 8080"
+      }
+    }
+
+    stage('Deploy Docker Machine production') {
+      when {
+        expression {
+          env.BRANCH_NAME == "production"
+        }
+      }
+      steps{
+        sh "ssh ec2-user@34.206.149.172 sh /home/ec2-user/deployApps.sh ${env.VERSION} production sepomex 8086 8080"
       }
     }
 
